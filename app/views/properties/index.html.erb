@@ -1,0 +1,21 @@
+
+
+
+
+
+<div class="container mb-5">
+  <h1 class="pt-4">My Properties</h1>
+  <div class="row">
+    <div class="d-flex justify-content-start m-2">
+      <%= link_to "Add property listing", property_new_path, class: "btn btn-primary" %></div>
+    <% @properties.each do |property| %>
+      <div class="col-sm-4 gx-3 gy-5">
+        <div class="card p-3 h-100">
+          <%= link_to "", property_path(property.id), class: "stretched-link"%>
+          <%= property.images.attached? ? (image_tag property.images.first, alt: "Picture of property #{property}", class: "property-picture-index rounded pb-3") : (image_tag "property-placeholder.jpg", alt: "House", class: "property-picture-index pb-3") %>
+          <%= render :partial => "property", :locals => {:property => property}%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

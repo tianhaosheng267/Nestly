@@ -1,0 +1,16 @@
+
+
+<nav class="d-flex justify-content-center gap-5 align-items-center py-2 border-top tab-bar">
+  <%= link_to root_path,
+              class: "tab-icon #{'active' if controller_name == 'swipes' && action_name == 'deck'}" do %>
+    <%= home_icon %>
+  <% end %>
+  <%= link_to likes_path,
+              class: "tab-icon #{'active' if controller_name == 'swipes' && action_name == 'likes'}" do %>
+    <%= star_icon %>
+  <% end %>
+  <%= link_to messages_path,
+              class: "tab-icon #{'active' if controller_name == 'messages'}" do %>
+    <%= chat_icon %>
+  <% end %>
+</nav>

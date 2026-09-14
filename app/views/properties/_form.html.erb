@@ -1,0 +1,95 @@
+ 
+
+
+
+
+
+<div data-controller="image-preview">
+  <%= form_with model: @property, method: @property.new_record? ? :post : :put, class: "row g-3" do |form| %>
+  <div class="col-12">
+    <%= form.label :address, class: "form-label" %>
+    <%= form.text_field :address, class: "form-control" %>
+  </div>
+  <div class="col-md-6">
+    <%= form.label :zip, class: "form-label" %>
+    <%= form.text_field :zip, class: "form-control" %>
+  </div>
+  <div class="col-md-4">
+    <%= form.label :city, class: "form-label" %>
+    <%= form.text_field :city, class: "form-control" %>
+  </div>
+  <div class="col-md-2">
+    <%= form.label :state, class: "form-label" %>
+    <%= form.select :state,  PropertiesHelper::US_STATES, {}, class: "form-select" %>
+  </div>
+  <div class="col-md-4">
+    <%= form.label :sqft, class: "form-label" %>
+    <%= form.number_field :sqft, in: 0..100000, step: 1, class: "form-control" %>
+  </div>
+  <div class="col-md-4">
+    <%= form.label :num_bathrooms, class: "form-label" %>
+    <%= form.number_field :num_bathrooms, in: 0..20, step: 1, class: "form-control" %>
+  </div>
+  <div class="col-md-4">
+    <%= form.label :num_bedrooms, class: "form-label" %>
+    <%= form.number_field :num_bedrooms, in: 0..20, step: 1, class: "form-control" %>
+  </div>
+  <div>
+    <%= form.label :amenities, class: "form-label" %>
+    <%= form.text_area :amenities, class: "form-control" %>
+  </div>
+  <div class="col-md-4">
+    <%= form.label :monthly_rent, class: "form-label" %>
+    <%= form.number_field :monthly_rent, in: 100.0..100000.0, step: 1, class: "form-control" %>
+  </div>
+  <div class="col-md-4">
+    <%= form.label :date_available, class: "form-label" %>
+    <%= form.date_field :date_available, class: "form-control" %>
+  </div>
+  <div>
+    <%= form.checkbox :pet_friendly, class: "form-check-input" %>
+    <%= form.label :pet_friendly, class: "form-label" %>
+  </div>
+  <div class="col-12">
+  <h6>Upload images to be displayed</h6>
+    <p>Star an image to make it the featured photo shown while swiping. If none is selected, the first image will be used.</p>
+    <%= form.file_field :images,
+                        multiple: true,
+                        accept: "image/*",
+                        class: "form-control",
+                        data: {
+                          image_preview_target: "input",
+                          action: "change->image-preview#show"
+                        } %>
+    <%= hidden_field_tag "property[main_image_selection]", @property.main_image_id.present? ? "existing:#{@property.main_image_id}" : "", data: { image_preview_target: "mainImage" } %>
+    <div class="property-image-preview-section" data-image-preview-target="section" style="display: none;">
+      <h6 class="property-image-preview-title">
+        Selected image previews
+      </h6>
+      <div class="property-image-preview-list"
+           data-image-preview-target="preview">
+      </div>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center my-4">
+    <%= form.submit class: "btn btn-primary" %> </div>
+<% end %>
+
+<% if !@property.new_record? && @property.images.attached?%>
+  <h6>Current images</h6>
+  <div class="row gx-3 gy-5">
+    <% @property.images.each do |image| %>
+      <div class="col-sm-4 gx-3 gy-5">
+        <div class="card p-3 h-100 position-relative">
+          <button type="button" class="property-image-star <%= "property-image-star-selected" if image.id == @property.main_image_id %>" data-image-preview-target="star" data-action="click->image-preview#selectExisting" data-image-id="<%= image.id %>" title="<%= image.id == @property.main_image_id ? "Featured photo" : "Set as featured photo" %>"><%= image.id == @property.main_image_id ? "★" : "☆" %></button>
+          <% if image.id == @property.main_image_id %>
+            <span class="property-image-featured">Featured</span>
+          <% end %>
+          <%= image_tag image, alt: "Picture of property #{@property}", class: "d-block rounded pb-3 property-picture-index" %>
+          <%= button_to "Remove picture", property_image_delete_path(@property, image), method: :delete,  class: "btn btn-primary"%>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+</div>

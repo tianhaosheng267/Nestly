@@ -1,0 +1,224 @@
+
+
+
+
+
+body {
+  background: #0F241B;
+  font-family: "Lora", Georgia, serif;
+  margin: 0;
+}
+
+
+.deck-page { min-height: calc(100vh - 72px); padding-bottom: 56px; }
+.likes-page { min-height: calc(100vh - 72px); padding-bottom: 72px; }
+.deck-split { min-height: calc(100vh - 128px); }
+
+
+.deck-photo-side {
+  width: 58%;
+  position: relative;
+  overflow: hidden;
+  background: #1E3D2F;
+}
+
+
+.deck-info-side {
+  width: 42%;
+  background: linear-gradient(160deg, #2F5D46 0%, #1E3D2F 60%, #14311F 100%);
+}
+
+
+.swipe-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #A8D5B9;
+  background: rgba(20, 49, 31, 0.8);
+  color: #A8D5B9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.1s, background 0.15s;
+}
+.gallery-arrow:hover { background: #14311F; transform: translateY(-50%) scale(1.08); }
+.gallery-prev { left: 16px; }
+.gallery-next { right: 16px; }
+
+
+.gallery-dots {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.gallery-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+}
+.gallery-dot.active { background: #fff; }
+
+
+.action-btn {
+  position: relative;
+  z-index: 2;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 2px solid;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.1s;
+}
+.action-btn:hover { transform: scale(1.1); }
+.pass-btn { border-color: #ff6b6b; color: #ff6b6b; }
+.like-btn { border-color: #7bd88f; color: #7bd88f; }
+
+
+.tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  background: #14311F;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.tab-icon { color: #6f8f7c; padding: 6px 16px; transition: color 0.15s; }
+.tab-icon:hover, .tab-icon.active { color: #A8D5B9; }
+
+
+.like-card {
+  height: 240px;
+  background: linear-gradient(160deg, #557C63 0%, #2F5D46 60%, #1E3D2F 100%);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.like-card:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
+
+.like-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.like-card-fade {
+  position: relative;
+  z-index: 1;
+  padding-left: 12px !important;
+  background: linear-gradient(transparent, rgba(8, 25, 17, 0.92));
+}
+
+.pin-form {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  z-index: 2;
+}
+.x-form {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 2;
+}
+
+
+.liked-star {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: color 0.15s;
+}
+.liked-star:hover { color: #FFD466; }
+.liked-star.pinned { color: #FFD466; }
+.liked-star svg { width: 16px; height: 16px; }
+
+
+.unlike-x {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ff6b6b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.unlike-x:hover { background: rgba(0, 0, 0, 0.8); }
+.unlike-x svg { width: 16px; height: 16px; }
+
+
+.filter-settings {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 4;
+}
+
+.filter-settings-button {
+  width: 40px;
+  height: 40px;
+  padding: 4px;
+  color: white;
+  background: transparent;
+  border: 0;
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.7));
+}
+
+.settings-icon {
+  display: block;
+  width: 32px;
+  height: 32px;
+  transform: rotate(0deg);
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+  transition: transform 0.35s ease;
+}
+
+.filter-settings-button:hover .settings-icon,
+.filter-settings-button[aria-expanded="true"] .settings-icon {
+  transform: rotate(180deg);
+}
+
+.filter-menu {
+  width: 280px;
+  margin-top: 8px !important;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}

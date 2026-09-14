@@ -1,0 +1,54 @@
+
+
+
+
+
+
+
+<div class="likes-page py-4">
+  
+  <div class="container">
+    <h1 class="h3 fw-bold text-black mb-4">My Likes</h1>
+
+    <% if @liked_swipes.any? %>
+      <div class="row g-4">
+        <% @liked_swipes.each do |swipe| %>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="like-card position-relative rounded-3 overflow-hidden text-white">
+              
+              <%= link_to property_path(swipe.property), class: "text-decoration-none text-white" do %>
+                <%= property_photo(swipe.property, "like-photo") %>
+                <div class="like-card-fade p-2 position-absolute bottom-0 start-0 end-0">
+                  <div class="fw-bold"><%= swipe.property.address %></div>
+                  <div class="small"><%= swipe.property.city %>, <%= swipe.property.state %></div>
+                  <div class="fw-semibold">$<%= swipe.property.monthly_rent.to_i %>/mo</div>
+                </div>
+              <% end %>
+              
+              <%= button_to "/swipes/#{swipe.id}/pin", method: :patch,
+                    form_class: "pin-form",
+                    class: "liked-star #{'pinned' if swipe.pinned}" do %>
+                <%= star_icon %>
+              <% end %>
+              
+              <%= button_to "/swipes/#{swipe.id}", method: :delete,
+                    form_class: "x-form",
+                    class: "unlike-x" do %>
+                <%= cross_icon %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="d-flex align-items-center justify-content-center h-100 text-muted text-center">
+        <div>
+          <p class="fs-5 mb-0">Nothing liked yet.</p>
+          <p>Head home and start swiping!</p>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  
+  <%= render "shared/bottom_nav" %>
+</div>

@@ -1,0 +1,13 @@
+
+
+one:
+  sender_id: <%= ActiveRecord::FixtureSet.identify(:two) %>
+  receiver_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
+  property_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
+  content: Is this property still available?
+
+two:
+  sender_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
+  receiver_id: <%= ActiveRecord::FixtureSet.identify(:two) %>
+  property_id: <%= ActiveRecord::FixtureSet.identify(:one) %>
+  content: Yes, this property is still available.

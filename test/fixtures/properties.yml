@@ -1,0 +1,30 @@
+
+
+
+one:
+  address: MyString
+  zip: 1
+  city: MyText
+  state: MyText
+  landlord: one
+  monthly_rent: 9.99
+  date_available: 2026-07-21
+  sqft: 9.99
+  num_bedrooms: 1
+  num_bathrooms: 1
+  pet_friendly: MyString
+  amenities: MyText
+
+two:
+  address: MyString
+  zip: 1
+  city: MyText
+  state: MyText
+  landlord: one
+  monthly_rent: 9.99
+  date_available: 2026-07-21
+  sqft: 9.99
+  num_bedrooms: 1
+  num_bathrooms: 1
+  pet_friendly: MyString
+  amenities: MyText

@@ -1,0 +1,11 @@
+
+
+one:
+  user: one
+  property: one
+  direction: MyString
+
+two:
+  user: two
+  property: two
+  direction: MyString

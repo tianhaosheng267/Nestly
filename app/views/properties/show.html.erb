@@ -1,0 +1,55 @@
+
+
+
+
+
+
+
+
+
+<div class="container d-flex m-5 gap-5">
+  <div class="col-md-6">
+    
+    <%= render :partial => "carousel", :locals => {:property => @property}%></div>
+  <div class="d-flex  flex-column col-md-6">
+    <%= render :partial => @property %>
+    <div class="d-flex gap-3">
+      <% if current_user != @property.landlord %>
+        <%= link_to "Request Tour",
+          new_tour_request_path(property_id: @property.id),
+          class: "btn btn-primary" %>
+        <% if user_signed_in? &&
+            current_user != @property.landlord %>
+        <%= link_to "Message Owner",
+            message_conversation_path(
+              property_id: @property.id,
+              user_id: @property.landlord_id
+            ),
+            class: "btn btn-primary" %>
+      <% end %>
+    <% end %>
+    
+    <% if @property.landlord == current_user %>
+      <%= link_to "Edit", property_edit_path(@property),  class: "btn btn-primary"%>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmationModal">
+        Delete
+      </button>
+    <% end %>
+  </div>
+</div>
+
+<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Property deletion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <p class="modal-body">Are you sure you want to permanently delete this property?</p>
+      <div class="modal-footer">
+        <%= button_to "Remove", property_path(@property), method: :delete, class: "btn btn-danger"%>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

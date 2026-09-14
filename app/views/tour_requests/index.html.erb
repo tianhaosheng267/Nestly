@@ -1,0 +1,61 @@
+
+
+
+
+<div class="container tour-page-container">
+    <div class="tour-page">
+        <h1 class="tour-page-title"> My Tour Requests</h1>
+        <p class="tour-page-description">View all your submitted tour requests below</p>
+    <% if @tour_requests.any? %>
+        <div class="tour-request-grid">
+            <% @tour_requests.each do |tour_request| %>
+                <div class="tour-request-card">
+                    <h5>
+                        <%= tour_request.property.address %>
+                    </h5>
+                    <p class="tour-request-location">
+                        <%= tour_request.property.city %>
+                        <%= tour_request.property.state %>
+                    </p>
+                    <p>
+                        <strong>Date:</strong>
+                        <%= tour_request.requested_date.strftime("%B %-d, %Y") %>
+                    </p>
+                    <p>
+                        <strong>Time:</strong>
+                        <%= tour_request.requested_time.strftime("%-I:%M %p") %>
+                    </p>
+                    <p>
+                        <strong>Status:</strong>
+                        <span class="tour-status tour-status-<%= tour_request.status %>">
+                            <%= tour_request.status.to_s.titleize %>
+                        </span>
+                    </p>
+                    <% if tour_request.message.present? %>
+                        <div class="tour-request-message">
+                            <strong>Message:</strong>
+                            <div>
+                                <%= tour_request.message %>
+                            </div>
+                        </div>
+                    <% end %>
+                    <div class="tour-action-row">
+                        <%= link_to "View Property", property_path(tour_request.property), class: "btn tour-button" %>
+                    </div>
+                </div>
+            <% end %>
+        </div>
+    <% else %>
+        <div class="tour-empty-state">
+            <div class="tour-empty-icon">
+                <%= tour_icon %>
+            </div>
+            <h4>No tour requests yet</h4>
+            <p>
+                Request a tour from a property's details page
+            </p>
+                <%= link_to "Browse Properties", root_path, class: "btn tour-button" %>
+            </div>
+        <% end %>
+    </div>
+</div>

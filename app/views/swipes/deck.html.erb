@@ -1,0 +1,188 @@
+
+
+
+
+
+
+
+
+
+
+
+<div class="deck-page">
+  <% if @property %>
+    <div class="d-flex deck-split">
+      
+      <div class="position-relative deck-photo-side">
+        
+        <% if @property.images.attached? %>
+          <% @property.images.each_with_index do |img, i| %>
+            <%= image_tag img, class: "swipe-photo gallery-photo #{'d-none' if i > 0}",
+                  data: { index: i }, alt: @property.address %>
+          <% end %>
+          <% if @property.images.count > 1 %>
+            <button type="button" class="gallery-arrow gallery-prev" onclick="galleryStep(-1)">
+              <%= left_icon %>
+            </button>
+            <button type="button" class="gallery-arrow gallery-next" onclick="galleryStep(1)">
+              <%= right_icon %>
+            </button>
+            <div class="gallery-dots">
+              <% @property.images.count.times do |i| %>
+                <span class="gallery-dot <%= 'active' if i == 0 %>" data-index="<%= i %>"></span>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <%= image_tag "property-placeholder.jpg", class: "swipe-photo", alt: "No photo yet" %>
+        <% end %>
+      </div>
+      
+      <div class="d-flex flex-column justify-content-between deck-info-side p-5 text-white">
+        <div class="d-flex justify-content-end">
+          <div class="dropdown filter-settings">
+  <button
+    class="filter-settings-button"
+    type="button"
+    data-bs-toggle="dropdown"
+    data-bs-auto-close="outside"
+    aria-expanded="false"
+    aria-label="Property filters"
+  >
+  <svg
+    class="settings-icon"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path
+      fill="currentColor"
+      d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.07-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7.1 7.1 0 0 0-1.62-.94L14.38 2.8a.49.49 0 0 0-.49-.4h-3.84a.49.49 0 0 0-.49.4L9.2 5.32c-.59.24-1.13.56-1.62.94L5.19 5.3a.5.5 0 0 0-.61.22L2.66 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.05.31-.08.65-.08.94s.03.63.08.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .61.22l2.39-.96c.49.38 1.03.7 1.62.94l.36 2.52a.49.49 0 0 0 .49.4h3.84a.49.49 0 0 0 .49-.4l.36-2.52c.59-.24 1.13-.56 1.62-.94l2.39.96a.5.5 0 0 0 .61-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.02-1.58ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z"
+    />
+  </svg>
+  </button>
+   <div class="dropdown-menu dropdown-menu-end filter-menu p-3">
+     <%= form_with url: root_path,
+                   method: :get,
+                   local: true do |form| %>
+       <%= hidden_field_tag :filters_submitted, "true" %>
+        <h6 class="mb-3">Property Preferences</h6>
+        <div class="mb-3">
+         <%= form.label :max_rent,
+                         "Maximum Rent",
+                         class: "form-label" %>
+         <%= form.number_field :max_rent,
+                                value: @max_rent,
+                                min: 0,
+                                step: 50,
+                                placeholder: "1500",
+                                class: "form-control" %>
+        </div>
+        <div class="mb-3">
+         <%= form.label :min_bedrooms,
+                         "Minimum Bedrooms",
+                          class: "form-label" %>
+          <%= form.select :min_bedrooms,
+                          options_for_select(
+                           [
+                              ["Any", ""],
+                              ["1+", 1],
+                              ["2+", 2],
+                              ["3+", 3],
+                              ["4+", 4]
+                            ],
+                            @min_bedrooms
+                          ),
+                          {},
+                          class: "form-select" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :min_bathrooms,
+                         "Minimum Bathrooms",
+                         class: "form-label" %>
+          <%= form.select :min_bathrooms,
+                         options_for_select(
+                           [
+                             ["Any", ""],
+                              ["1+", 1],
+                              ["2+", 2],
+                              ["3+", 3],
+                              ["4+", 4]
+                            ],
+                            @min_bathrooms
+                          ),
+                          {},
+                          class: "form-select" %>
+        </div>
+        <div class="d-flex justify-content-between">
+          <%= link_to "Clear",
+                      root_path(clear_filters: true),
+                      class: "btn btn-outline-secondary btn-sm" %>
+          <%= form.submit "Apply",
+                          class: "btn btn-dark btn-sm" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+        </div>
+        <div>
+          <h1 class="display-5 fw-bold mb-1"><%= @property.address %></h1>
+          <div class="fs-3 fw-semibold mb-3">$<%= @property.monthly_rent.to_i %>/mo</div>
+          
+          <span class="badge rounded-pill text-bg-dark bg-opacity-50 fs-6">
+            <%= @property.num_bedrooms %> bd · <%= @property.num_bathrooms %> ba
+          </span>
+          <span class="badge rounded-pill text-bg-dark bg-opacity-50 fs-6">
+            <%= @property.sqft.to_i %> sqft
+          </span>
+          <% if @property.pet_friendly %>
+            <span class="badge rounded-pill text-bg-dark bg-opacity-50 fs-6">Pets OK</span>
+          <% end %>
+          <span class="badge rounded-pill text-bg-dark bg-opacity-50 fs-6">
+            <%= @property.city %>, <%= @property.state %>
+          </span>
+          
+          <div class="mt-4">
+            <%= link_to "View Property Details", property_path(@property), class: "btn btn-light btn-sm mt-3" %>
+          </div>
+        </div>
+        
+        <div class="d-flex justify-content-center gap-4 mb-3">
+          <%= button_to swipes_path,
+                params: { property_id: @property.id, direction: "pass" },
+                class: "action-btn pass-btn" do %>
+            <%= cross_icon %>
+          <% end %>
+          <%= button_to swipes_path,
+                params: { property_id: @property.id, direction: "like" },
+                class: "action-btn like-btn" do %>
+            <%= heart_icon %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  
+  <% else %>
+    <div class="d-flex align-items-center justify-content-center text-center text-white deck-split">
+      <div>
+        <h2 class="h3 fw-bold">That's everything!</h2>
+        <p>No more properties to swipe.</p>
+      </div>
+    </div>
+  <% end %>
+  <%= render "shared/bottom_nav" %>
+</div>
+<script>
+  
+  let galleryIndex = 0;
+  
+  function galleryStep(direction) {
+    const photos = document.querySelectorAll(".gallery-photo");
+    const dots = document.querySelectorAll(".gallery-dot");
+    if (photos.length < 2) return;
+    photos[galleryIndex].classList.add("d-none");
+    dots[galleryIndex].classList.remove("active");
+    galleryIndex = (galleryIndex + direction + photos.length) % photos.length;
+    photos[galleryIndex].classList.remove("d-none");
+    dots[galleryIndex].classList.add("active");
+  }
+</script>

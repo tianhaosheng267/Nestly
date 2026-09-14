@@ -1,0 +1,47 @@
+
+
+<% content_for :title, "Account Details | Nestly" %>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="card border shadow auth-card">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <h1 class="h3 fw-bold mb-2">Account Details</h1>
+            <p class="text-muted mb-0">
+              View your Nestly account information
+            </p>
+          </div>
+          <div class="account-detail-box p-3 mb-3">
+            <p class="text-muted small mb-1">Name</p>
+            <p class="fw-semibold mb-0">
+              <%= @user.name.presence || "Not provided" %>
+            </p>
+          </div>
+          <div class="account-detail-box p-3 mb-3">
+            <p class="text-muted small mb-1">Email address</p>
+            <p class="fw-semibold mb-0">
+              <%= @user.email %>
+            </p>
+          </div>
+          <div class="account-detail-box p-3 mb-4">
+            <p class="text-muted small mb-1">Member since</p>
+
+            <p class="fw-semibold mb-0">
+              <%= @user.created_at.strftime("%B %d, %Y") %>
+            </p>
+          </div>
+          <div class="d-grid gap-2">
+            <%= link_to "Reset Password",
+                        new_user_password_path,
+                        class: "btn btn-primary" %>
+
+            <%= link_to "Back to Properties",
+                        root_path,
+                        class: "btn btn-outline-secondary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

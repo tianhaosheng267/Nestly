@@ -1,0 +1,11 @@
+
+
+one:
+  property_id: 1
+  image_path: MyString
+  caption: MyString
+
+two:
+  property_id: 1
+  image_path: MyString
+  caption: MyString

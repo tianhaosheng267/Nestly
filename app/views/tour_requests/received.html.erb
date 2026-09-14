@@ -1,0 +1,72 @@
+
+
+<div class="container tour-page-container">
+    <div class="tour-page">
+        <h1 class="tour-page-title">Received Tour Requests</h1>
+        <p class="tour-page-description">Review requests submitted for your properties</p>
+        <% if @tour_requests.any? %>
+            <div class="tour-request-grid">
+                <% @tour_requests.each do |tour_request| %>
+                    <div class="tour-request-card">
+                        <h5>
+                            <%= tour_request.property.address %>
+                        </h5>
+                        <p class="tour-request-location">
+                            <%= tour_request.property.city %>,
+                            <%= tour_request.property.state %>
+                        </p>
+                        <p>
+                            <strong>Requested by:</strong>
+                            <%= tour_request.user.name %>
+                        </p>
+                        <p>
+                            <strong>Date:</strong>
+                            <%= tour_request.requested_date.strftime("%B %-d, %Y") %>
+                        </p>
+                        <p>
+                            <strong>Time:</strong>
+                            <%= tour_request.requested_time.strftime("%-I:%M %p") %>
+                        </p>
+                        <p>
+                            <strong>Status:</strong>
+                            <span class="tour-status tour-status-<%= tour_request.status %>">
+                                <%= tour_request.status.to_s.titleize %>
+                            </span>
+                        </p>
+                        <% if tour_request.message.present? %>
+                            <div class="tour-request-message">
+                                <strong>Message:</strong>
+                                <div>
+                                    <%= tour_request.message %>
+                                </div>
+                            </div>
+                        <% end %>
+                        <div class="tour-action-row">
+                            <% if tour_request.status == "pending" %>
+                                <%= button_to "Approve", approve_tour_request_path(tour_request), method: :put, class: "btn tour-button-approve" %>
+                                <%= button_to "Deny", deny_tour_request_path(tour_request), method: :put, class: "btn tour-button-deny" %>
+                            <% elsif tour_request.status == "approved" && tour_request.tour_time_passed? %>
+                                <%= button_to "Completed", complete_tour_request_path(tour_request), method: :put, class: "btn tour-button-approve" %>
+                                <%= button_to "Incomplete", incomplete_tour_request_path(tour_request), method: :put, class: "btn tour-button-incomplete" %>
+                            <% elsif tour_request.status == "approved" %>
+                                <p class="text-muted mb-0">Completion options will appear after the scheduled tour time</p>
+                            <% end %>
+                        </div>
+                        <div class="tour-action-row">
+                            <%= link_to "View Property", property_path(tour_request.property), class: "btn tour-button" %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        <% else %>
+            <div class="tour-empty-state">
+                <div class="tour-empty-icon">
+                    <%= received_tour_icon %>
+                </div>
+                <h4>No received tour requests yet</h4>
+                <p>Once renters submit tour requests for your properties, they will appear here</p>
+                <%= link_to "Browse Properties", root_path, class: "btn tour-button" %>
+            </div>
+        <% end %>
+    </div>
+</div>

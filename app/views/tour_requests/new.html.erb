@@ -1,0 +1,43 @@
+
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h1 class="mb-3">Request a Tour</h1>
+                    <p>
+                        Property:
+                        <strong><%= @property.address %></strong>
+                    </p>
+                    <% if @tour_request.errors.any? %>
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                <% @tour_request.errors.full_messages.each do |message| %>
+                                    <li><%= message %></li>
+                                <% end %>
+                            </ul>
+                        </div>
+                    <% end %>
+                    <%= form_with model: @tour_request do |form| %>
+                    <%= form.hidden_field :property_id, value: @property.id %>
+                        <div class="mb-3">
+                            <%= form.label :requested_date, class: "form-label" %>
+                            <%= form.date_field :requested_date, class: "form-control", min: Date.current %>
+                        </div>
+                        <div class="mb-3">
+                            <%= form.label :requested_time, class: "form-label" %>
+                            <%= form.time_field :requested_time, class: "form-control" %>
+                        </div>
+                        <div class="mb-3">
+                            <%= form.label :message, class: "form-label" %>
+                            <%= form.text_area :message, rows: 4, class: "form-control", placeholder: "Add a message for the landlord..." %>
+                        </div>
+                            <%= form.submit "Submit Tour Request", class: "btn btn-primary" %>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

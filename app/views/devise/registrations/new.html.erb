@@ -1,0 +1,67 @@
+
+
+
+
+<% content_for :title, "Register | Nestly" %>
+<div class="container auth-page py-5">
+  <div class="row justify-content-center w-100">
+    <div class="col-12 col-md-9 col-lg-6">
+      <div class="card border-0 shadow auth-card">
+        <div class="card-body p-4 p-md-5">
+          <div class="text-center mb-4">
+            <h1 class="h3 fw-bold">Create Your Account</h1>
+            <p class="text-muted">
+              Find your next home or list your property
+            </p>
+          </div>
+          <% if resource.errors.any? %>
+            <div class="alert alert-danger" role="alert">
+              <h2 class="h6 fw-bold">
+                Please fix the following
+                <%= pluralize(resource.errors.count, "error") %>:
+              </h2>
+              <ul class="mb-0">
+                <% resource.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <div class="mb-3">
+              <%= f.label :name, "Full name", class: "form-label fw-semibold" %>
+              <%= f.text_field :name, autofocus: true, autocomplete: "name", placeholder: "Enter your full name", class: "form-control form-control-lg", required: true %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :email, "Email address", class: "form-label fw-semibold" %>
+              <%= f.email_field :email, autocomplete: "email", placeholder: "name@example.com", class: "form-control form-control-lg", required: true %>
+            </div>
+            <div class="mb-3">
+              <%= f.label :password, "Password", class: "form-label fw-semibold" %>
+              <% if @minimum_password_length %>
+                <div class="form-text mb-2">
+                  Minimum
+                  <%= @minimum_password_length %>
+                  characters
+                </div>
+              <% end %>
+              <%= f.password_field :password, autocomplete: "new-password", placeholder: "Create a password", class: "form-control form-control-lg", required: true %>
+            </div>
+            <div class="mb-4">
+              <%= f.label :password_confirmation, "Confirm password", class: "form-label fw-semibold" %>
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Enter the password again", class: "form-control form-control-lg", required: true %>
+            </div>
+            <div class="d-grid">
+              <%= f.submit "Create Account", class: "btn btn-primary btn-lg" %>
+            </div>
+          <% end %>
+          <hr class="my-4">
+          <p class="text-center text-muted mb-0">
+            Already have an account?
+            <%= link_to "Log in", new_user_session_path, class: "fw-semibold text-decoration-none" %>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

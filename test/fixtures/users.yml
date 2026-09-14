@@ -1,0 +1,15 @@
+
+
+one:
+  name: Test Landlord
+  email: MyString
+  password_digest: MyString
+  role: landlord
+  housing_preferences: MyText
+
+two:
+  name: Test Renter
+  email: MyString
+  password_digest: MyString
+  role: renter
+  housing_preferences: MyText

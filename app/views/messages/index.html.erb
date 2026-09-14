@@ -1,0 +1,79 @@
+
+
+
+<div class="container messages-container">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="messages-page">
+        <h1 class="messages-title">Chats</h1>
+        <% if @conversations.any? %>
+          <div class="conversation-list">
+            <% @conversations.each do |message| %>
+              <% if message.sender_id == current_user.id %>
+                <% other_user = message.receiver %>
+              <% else %>
+                <% other_user = message.sender %>
+              <% end %>
+              <%= link_to message_conversation_path(
+                            property_id: message.property_id,
+                            user_id: other_user.id
+                          ),
+                          class: "conversation-item" do %>
+                <div class="conversation-avatar">
+                  <%= other_user.name.to_s.first&.upcase || "?" %>
+                </div>
+                <div class="conversation-information">
+                  <div class="conversation-heading">
+                    <h5 class="conversation-name">
+                      <%= other_user.name.presence ||
+                          other_user.email %>
+                    </h5>
+                  <% message_time = message.created_at.in_time_zone %>
+                  <span class="conversation-date">
+                    <% if message_time.to_date == Date.current %>
+                      <%= message_time.strftime("%-I:%M %p") %>
+                    <% elsif message_time.to_date == Date.yesterday %>
+                      Yesterday
+                    <% else %>
+                      <%= message_time.strftime("%m/%d/%Y") %>
+                    <% end %>
+                  </span>
+                  </div>
+                  <p class="conversation-property">
+                    <%= message.property.address %>
+                  </p>
+                  <p class="conversation-preview">
+                    <% if message.sender_id == current_user.id %>
+                      <strong>You:</strong>
+                    <% end %>
+                    <%= truncate(
+                          message.content,
+                          length: 55
+                        ) %>
+                  </p>
+                </div>
+                <span class="conversation-arrow">
+                  ›
+                </span>
+              <% end %>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="empty-messages text-center">
+            <div class="empty-message-icon">
+              <span>•••</span>
+            </div>
+            <h4>No chats yet</h4>
+            <p class="text-muted">
+              Your property conversations will appear here.
+            </p>
+            <%= link_to "View Properties",
+                        root_path,
+                        class: "btn message-button" %>
+          </div>
+        <% end %>
+        <%= render "shared/bottom_nav" %>
+      </div>
+    </div>
+  </div>
+</div>
