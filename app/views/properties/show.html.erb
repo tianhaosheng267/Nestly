@@ -20,11 +20,8 @@
           class: "btn btn-primary" %>
         <% if user_signed_in? &&
             current_user != @property.landlord %>
-        <%= link_to "Message Owner",
-            message_conversation_path(
-              property_id: @property.id,
-              user_id: @property.landlord_id
-            ),
+        <%= link_to "Email Owner",
+            new_email_conversation_path(property_id: @property.id),
             class: "btn btn-primary" %>
       <% end %>
     <% end %>

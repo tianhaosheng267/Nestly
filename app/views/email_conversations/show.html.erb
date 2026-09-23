@@ -1,0 +1,20 @@
+<% content_for :title, 'Email conversation | Nestly' %>
+<div class="container py-4 discovery-page"><%= link_to '← Inbox', inbox_path, class: 'd-inline-block mb-3' %>
+  <div class="card mailbox-thread"><div class="card-header p-4"><h1 class="h4"><%= @conversation.subject %></h1><div>To: <strong><%= @conversation.recipient %></strong></div><div class="small text-muted">From: <%= current_user.gmail_connection.email %></div></div>
+    <div class="p-4">
+      <%= link_to 'Refresh replies', email_conversation_path(@conversation), class: 'btn btn-outline-dark btn-sm mb-3' %>
+      <% if @mail_error %><div class="alert alert-warning"><%= @mail_error %></div><% end %>
+      <% if @conversation.email_deliveries.where(status: %w[sending unknown]).exists? %><div class="alert alert-warning">A previous delivery could not be confirmed. Check Gmail Sent before resending.</div><% end %>
+      <% @emails.each do |email| %>
+        <article class="email-bubble mb-3"><div class="fw-semibold"><%= email[:from] %></div><div class="small text-muted mb-2"><%= email[:date] %></div><div class="email-body"><%= email[:body] %></div></article>
+      <% end %>
+      <% if @emails.empty? && !@mail_error %><p class="text-muted">Write your first message below. You can ask about pricing, available floor plans, or a tour.</p><% end %>
+      <%= form_with url: send_message_email_conversation_path(@conversation), data: { turbo: false } do |form| %>
+        <%= hidden_field_tag :send_token, email_send_token(@conversation) %>
+        <%= form.label :body, 'Your message', class: 'form-label fw-semibold' %>
+        <%= form.text_area :body, required: true, maxlength: 10_000, rows: 5, class: 'form-control mb-3', placeholder: 'Hello, I am interested in your community. Do you have any apartments available?' %>
+        <%= form.submit 'Send email', class: 'btn btn-primary', data: { turbo_submits_with: 'Sending…' } %>
+      <% end %>
+    </div>
+  </div>
+</div>

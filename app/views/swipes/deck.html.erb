@@ -10,7 +10,10 @@
 
 
 <div class="deck-page">
-  <% if @property %>
+  <div class="deck-toolbar"><span>Discover communities &amp; manually listed homes</span><div><%= link_to 'Search area', new_apartment_search_path, class: 'btn btn-sm btn-outline-dark' %> <%= link_to 'Apartment list', apartments_path, class: 'btn btn-sm btn-primary' %></div></div>
+  <% if @community %>
+    <%= render 'apartments/swipe' %>
+  <% elsif @property %>
     <div class="d-flex deck-split">
       
       <div class="position-relative deck-photo-side">
@@ -173,7 +176,7 @@
 </div>
 <script>
   
-  let galleryIndex = 0;
+  var galleryIndex = 0;
   
   function galleryStep(direction) {
     const photos = document.querySelectorAll(".gallery-photo");

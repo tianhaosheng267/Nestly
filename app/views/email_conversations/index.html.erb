@@ -1,0 +1,29 @@
+<% content_for :title, 'Inbox | Nestly' %>
+<div class="container py-5 discovery-page">
+  <div class="discovery-heading"><div><span class="eyebrow">STAY IN TOUCH</span><h1>Your apartment inbox</h1><p>Ask about availability, arrange a visit, and read replies without leaving Nestly.</p></div></div>
+  <% if @connection %>
+    <div class="card p-3 mb-4 d-flex flex-row flex-wrap justify-content-between align-items-center gap-3">
+      <span>Connected as <strong><%= @connection.email %></strong></span>
+      <%= button_to 'Disconnect Gmail', gmail_connection_path, method: :delete, class: 'btn btn-outline-dark', data: { turbo_confirm: 'Disconnect Gmail? Local conversation links will be removed. Your emails will remain in Gmail.' } %>
+    </div>
+    <% if @conversations.any? %>
+      <div class="list-group mb-4"><% @conversations.each do |conversation| %>
+        <%= link_to email_conversation_path(conversation), class: 'list-group-item list-group-item-action py-3' do %>
+          <strong><%= conversation.subject %></strong><div class="text-muted"><%= conversation.recipient %> · <%= conversation.gmail_thread_id.present? ? 'Open conversation' : 'Not sent yet' %></div>
+        <% end %>
+      <% end %></div>
+    <% else %>
+      <div class="discovery-empty"><h2>No conversations yet</h2><p>Choose Contact from an apartment or property to start an email conversation.</p><%= link_to 'Explore apartments', apartments_path, class: 'btn btn-primary' %></div>
+    <% end %>
+  <% else %>
+    <div class="card auth-card p-4 p-md-5 mailbox-connect"><h2>Bring your Gmail along</h2><p>Connect your own Gmail to send apartment inquiries and read replies here. Nestly shows conversations started here; it does not import your entire inbox.</p><p class="text-muted">Google will ask for permission to read and send email. Nothing is sent until you press Send email.</p>
+      <% if GmailOauth.configured? %>
+        <%= button_to 'Connect Gmail', gmail_connection_path, class: 'btn btn-primary btn-lg', data: { turbo: false } %>
+      <% else %>
+        <div class="alert alert-light mb-0">Gmail connection is not available yet. The site owner needs to finish connecting Google.</div>
+      <% end %>
+    </div>
+  <% end %>
+  <p class="mt-4 small text-muted">Replies appear when you open or refresh a conversation. <%= link_to 'Privacy', privacy_path %> · <%= link_to 'Previous Nestly chats', messages_path %></p>
+  <%= render 'shared/bottom_nav' %>
+</div>

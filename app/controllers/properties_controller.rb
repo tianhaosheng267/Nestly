@@ -6,7 +6,7 @@
 
 
 class PropertiesController < ApplicationController
-  before_action :is_owner, only: [ :destroy, :edit ]
+  before_action :is_owner, only: [ :destroy, :edit, :update, :delete_image ]
   def index
     @properties = current_user.properties
   end
@@ -48,7 +48,7 @@ class PropertiesController < ApplicationController
     @property = Property.find params[:id]
     if @property.update property_params.except(:images)
       previous_image_count = @property.images.count
-      @property.images.attach(property_params[:images]) unless property_params[:images].empty?
+      @property.images.attach(property_params[:images]) if property_params[:images].present?
       set_main_image previous_image_count
       flash[:success] = "Property listing is updated!"
       redirect_to @property, notice: "Success! Your property is updated!"
@@ -65,7 +65,7 @@ class PropertiesController < ApplicationController
   end
 
   def is_owner
-    redirect_to(properties_path, status: :see_other) unless Property.find_by(id: params[:id]).landlord == current_user
+    @property = current_user.properties.find(params[:id])
   end
 
   def delete_image

@@ -1,0 +1,9 @@
+<div class="d-flex deck-split community-deck">
+  <div class="deck-photo-side community-art"><%= render 'apartments/buildings' %><span class="illustration-note">Illustration · photo not provided</span></div>
+  <div class="deck-info-side p-4 p-md-5 text-white d-flex flex-column justify-content-between">
+    <div><span class="badge bg-light text-dark mb-3">Apartment community</span><p class="small">OpenStreetMap discovery</p></div>
+    <div><h1 class="display-6 fw-bold"><%= @community.name %></h1><p><%= @community.address.presence || 'View community for map location' %></p><p><%= number_with_precision(@community.distance_from(@search), precision: 1) %> miles from <%= @search.zip_code %></p><p class="small opacity-75">Contact the leasing office for prices and availability. Rent and room filters apply to manual listings only.</p><%= link_to 'View community', apartment_path(@community), class: 'btn btn-light mb-4' %> <%= link_to 'Contact', new_email_conversation_path(apartment_community_id: @community.id), class: 'btn btn-outline-light mb-4' %></div>
+    <div class="d-flex justify-content-center gap-4"><%= button_to community_swipes_path, params: { apartment_community_id: @community.id, direction: 'pass' }, class: 'action-btn pass-btn', aria: { label: 'Pass on this community' } do %><%= cross_icon %><% end %><%= button_to community_swipes_path, params: { apartment_community_id: @community.id, direction: 'like' }, class: 'action-btn like-btn', aria: { label: 'Like this community' } do %><%= heart_icon %><% end %></div>
+  </div>
+</div>
+<div class="container pt-2"><%= render 'apartments/attribution' %></div>

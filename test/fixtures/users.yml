@@ -2,14 +2,17 @@
 
 one:
   name: Test Landlord
-  email: MyString
+  email: landlord@example.test
   password_digest: MyString
-  role: landlord
   housing_preferences: MyText
 
 two:
   name: Test Renter
-  email: MyString
+  email: renter@example.test
   password_digest: MyString
-  role: renter
   housing_preferences: MyText
+
+three:
+  name: Other Renter
+  email: other@example.test
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>

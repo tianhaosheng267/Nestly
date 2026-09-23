@@ -9,6 +9,11 @@
   
   <div class="container">
     <h1 class="h3 fw-bold text-black mb-4">My Likes</h1>
+    <% if @liked_communities.any? %>
+      <h2 class="h5 mb-3">Apartment communities</h2><div class="community-grid mb-4">
+        <% @liked_communities.each do |saved| %><article class="saved-community-card"><h3 class="h5"><%= link_to saved.apartment_community.name, apartment_path(saved.apartment_community), class: 'community-title' %></h3><p class="small text-muted"><%= saved.apartment_community.address.presence || 'View community for location' %></p><div class="d-flex gap-2 flex-wrap"><%= link_to 'Contact', new_email_conversation_path(apartment_community_id: saved.apartment_community_id), class: 'btn btn-primary btn-sm' %><%= button_to saved.pinned? ? 'Unpin ★' : 'Pin ☆', toggle_pin_community_swipe_path(saved), method: :patch, class: 'btn btn-outline-dark btn-sm' %><%= button_to 'Remove', community_swipe_path(saved), method: :delete, class: 'btn btn-outline-dark btn-sm' %></div></article><% end %>
+      </div><%= render 'apartments/attribution' %>
+    <% end %>
 
     <% if @liked_swipes.any? %>
       <div class="row g-4">
@@ -40,7 +45,7 @@
           </div>
         <% end %>
       </div>
-    <% else %>
+    <% elsif @liked_communities.empty? %>
       <div class="d-flex align-items-center justify-content-center h-100 text-muted text-center">
         <div>
           <p class="fs-5 mb-0">Nothing liked yet.</p>

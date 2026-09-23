@@ -1,0 +1,14 @@
+<% content_for :title, 'Nearby apartments | Nestly' %>
+<div class="container py-5 discovery-page">
+  <div class="discovery-heading"><div><span class="eyebrow">EXPLORE YOUR OPTIONS</span><h1>Apartments near <%= @search.zip_code %></h1><p><%= pluralize(@communities.size, 'community') %> found within <%= @search.radius_miles %> miles · straight-line distance</p></div><div class="d-flex gap-2 flex-wrap"><%= link_to 'Change search', new_apartment_search_path, class: 'btn btn-outline-dark' %><%= link_to 'Start swiping', root_path, class: 'btn btn-primary' %></div></div>
+  <div class="search-context mb-4"><span>Open map results · searched <%= time_ago_in_words(@search.searched_at) %> ago</span><span>Contact each community for pricing and availability</span></div>
+  <% if @search.truncated %><div class="alert alert-warning">This area has more results than this search can return. Try a smaller radius for more focused coverage.</div><% end %>
+  <% if @communities.any? %>
+    <div class="community-grid"><% @communities.each do |community| %>
+      <article class="card community-card"><div class="community-art"><%= render 'apartments/buildings' %><span class="community-kind">Apartment community</span><span class="illustration-note">Illustration · photo not provided</span></div><div class="card-body p-4"><div class="small text-muted mb-2"><%= number_with_precision(community.distance_from(@search), precision: 1) %> miles from ZIP center</div><h2 class="h5"><%= link_to community.name, apartment_path(community), class: 'community-title' %></h2><p class="text-muted small"><%= community.address.presence || 'Street address not provided — view map for location' %></p><div class="d-flex gap-2 mt-3"><%= link_to 'View community', apartment_path(community), class: 'btn btn-primary btn-sm' %><%= button_to @liked_ids.include?(community.id) ? 'Saved ♥' : 'Save ♡', community_swipes_path, params: { apartment_community_id: community.id, direction: 'like', return_to: 'apartments' }, class: 'btn btn-outline-dark btn-sm', disabled: @liked_ids.include?(community.id) %></div></div></article>
+    <% end %></div>
+  <% else %>
+    <div class="discovery-empty"><h2>No mapped communities found here yet</h2><p>Open map coverage can be incomplete. Try a wider radius or another ZIP code, or browse manually listed homes.</p><%= link_to 'Try another area', new_apartment_search_path, class: 'btn btn-primary' %> <%= link_to 'Browse listings', root_path, class: 'btn btn-outline-dark' %></div>
+  <% end %>
+  <div class="mt-4"><%= render 'apartments/attribution' %></div><%= render 'shared/bottom_nav' %>
+</div>

@@ -1,0 +1,16 @@
+<% content_for :title, 'Contact an apartment | Nestly' %>
+<div class="container py-5"><div class="card auth-card p-4 p-md-5 mx-auto mailbox-connect">
+  <span class="eyebrow">START A CONVERSATION</span><h1>Contact the leasing office</h1>
+  <% if @community %>
+    <p>Confirm the leasing email on the community's official website before sending. Open map contact details may be missing or outdated.</p>
+    <%= link_to 'View community and official website', apartment_path(@community), class: 'mb-3', target: '_blank', rel: 'noopener' %>
+  <% else %><p>Send an inquiry about <strong><%= @property.address %></strong>.</p><% end %>
+  <% if @conversation.errors.any? %><div class="alert alert-danger"><%= @conversation.errors.full_messages.to_sentence %></div><% end %>
+  <%= form_with model: @conversation do |form| %>
+    <%= form.hidden_field :apartment_community_id %><%= form.hidden_field :property_id %>
+    <div class="mb-3"><%= form.label :recipient, 'Leasing office email', class: 'form-label' %><%= form.email_field :recipient, required: true, maxlength: 254, class: 'form-control', placeholder: 'leasing@example.com' %></div>
+    <div class="mb-4"><%= form.label :subject, class: 'form-label' %><%= form.text_field :subject, required: true, maxlength: 200, class: 'form-control' %></div>
+    <%= form.submit 'Continue to compose', class: 'btn btn-primary' %>
+  <% end %>
+  <p class="small text-muted mt-3 mb-0">This creates a conversation draft. No email is sent yet.</p>
+</div></div>

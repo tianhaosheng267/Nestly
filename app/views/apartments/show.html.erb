@@ -1,0 +1,10 @@
+<% content_for :title, "#{@community.name} | Nestly" %>
+<div class="container py-5 discovery-page"><%= link_to '← Apartment results', apartments_path, class: 'd-inline-block mb-4' %>
+  <div class="community-detail"><div class="community-art detail-art"><%= render 'apartments/buildings' %><span class="illustration-note">Illustration · photo not provided</span></div><div class="card p-4 p-md-5"><span class="eyebrow">APARTMENT COMMUNITY</span><h1><%= @community.name %></h1><p><%= @community.address.presence || 'Street address not provided' %></p><% if @community.distance_from(@search) %><p class="text-muted"><%= number_with_precision(@community.distance_from(@search), precision: 1) %> miles from <%= @search.zip_code %></p><% end %>
+    <p>Contact the leasing office for current rent, floor plans, pet policies, and availability.</p>
+    <% if @community.phone.present? %><p><strong>Phone:</strong> <%= @community.phone %></p><% end %>
+    <% if @community.contact_email.present? %><p><strong>Listed email:</strong> <%= @community.contact_email %></p><% end %>
+    <div class="d-flex gap-2 flex-wrap my-3"><%= link_to 'Contact by email', new_email_conversation_path(apartment_community_id: @community.id), class: 'btn btn-primary' %><% if (website = safe_external_url(@community.website)) %><%= link_to 'Official website ↗', website, target: '_blank', rel: 'noopener noreferrer', class: 'btn btn-outline-dark' %><% end %><%= link_to 'View in Google Maps ↗', community_maps_url(@community), target: '_blank', rel: 'noopener noreferrer', class: 'btn btn-outline-dark' %></div>
+    <p class="small text-muted">Map details retrieved <%= time_ago_in_words(@community.fetched_at) %> ago. Verify contact details on the official website before sending.</p><%= link_to 'View OpenStreetMap source', @community.source_url, target: '_blank', rel: 'noopener', class: 'small' %>
+  </div></div><div class="mt-4"><%= render 'apartments/attribution' %></div>
+</div>

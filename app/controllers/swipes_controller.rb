@@ -5,6 +5,9 @@
 
 class SwipesController < ApplicationController
   def deck
+    session[:browse_manual] = true if params[:manual] == '1'
+    @search = current_user.apartment_search
+    return redirect_to new_apartment_search_path unless @search || session[:browse_manual]
     update_filter_preferences
 
     swiped_ids = Swipe.where(user_id: current_user.id).select(:property_id)
@@ -35,9 +38,17 @@ class SwipesController < ApplicationController
     @min_bedrooms = session[:min_bedrooms]
     @min_bathrooms = session[:min_bathrooms]
     @property = properties.first
+    if @search
+      swiped_community_ids = current_user.community_swipes.select(:apartment_community_id)
+      candidates = ApartmentCommunity.where(id: @search.community_ids).where.not(id: swiped_community_ids)
+      @community = candidates.min_by { |community| community.distance_from(@search) }
+      total_swipes = current_user.community_swipes.count + Swipe.where(user_id: current_user.id).count
+      @community = nil if @property && total_swipes.odd?
+    end
   end
 
   def likes
+    @liked_communities = current_user.community_swipes.where(direction: 'like').includes(:apartment_community).order(pinned: :desc, created_at: :desc)
     @liked_swipes = Swipe.where(user_id: current_user.id, direction: "like")
                          .includes(:property)
                          .order(pinned: :desc, created_at: :desc)

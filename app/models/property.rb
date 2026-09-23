@@ -19,6 +19,7 @@ class Property < ApplicationRecord
 
   has_many :swipes, dependent: :destroy
   has_many :messages, dependent: :destroy
+  has_many :email_conversations, dependent: :destroy
   has_many :tour_requests, dependent: :destroy
 
   has_many_attached :images

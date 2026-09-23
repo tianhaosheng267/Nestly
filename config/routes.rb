@@ -9,6 +9,19 @@
 
 
 Rails.application.routes.draw do
+  get '/search', to: 'apartments#new', as: :new_apartment_search
+  post '/search', to: 'apartments#create', as: :apartment_search
+  resources :apartments, only: [:index, :show]
+  resources :community_swipes, only: [:create, :destroy] do
+    patch :toggle_pin, on: :member
+  end
+  get '/inbox', to: 'email_conversations#index', as: :inbox
+  resources :email_conversations, only: [:new, :create, :show] do
+    post :send_message, on: :member
+  end
+  resource :gmail_connection, only: [:create, :destroy]
+  get '/gmail/callback', to: 'gmail_connections#callback', as: :gmail_callback
+  get '/privacy', to: 'pages#privacy', as: :privacy
   devise_for :users
   
 

@@ -5,6 +5,10 @@
 
 
 class User < ApplicationRecord
+  has_one :apartment_search, dependent: :destroy
+  has_many :community_swipes, dependent: :destroy
+  has_many :email_conversations, dependent: :destroy
+  has_one :gmail_connection, dependent: :destroy
   
   
   devise :database_authenticatable,

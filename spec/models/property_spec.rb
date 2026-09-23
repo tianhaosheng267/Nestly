@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Property, type: :model do
   let(:landlord_1) do
-   User.create!(name: Faker::Name.name, email: Faker::Internet.email, password: "cse3901!", role: "landlord")
+   User.create!(name: Faker::Name.name, email: Faker::Internet.email, password: "cse3901!")
   end
 
   subject { Property.new(address: "496  Charlotte Street", city: "Columbus", state: "OH", landlord_id: landlord_1.id, zip: "48932", monthly_rent: 3000, num_bathrooms: 3, num_bedrooms: 2)}

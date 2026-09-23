@@ -100,7 +100,8 @@
                           class: "nav-link" %>
             </li>
             <% if user_signed_in? %>
-
+              <li class="nav-item"><%= link_to 'Apartments', apartments_path, class: 'nav-link' %></li>
+              <li class="nav-item"><%= link_to 'Inbox', inbox_path, class: 'nav-link' %></li>
             <li class="nav-item">
               <%= link_to "My Properties",
                           properties_path,
