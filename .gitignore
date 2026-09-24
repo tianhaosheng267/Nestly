@@ -33,3 +33,20 @@
 
 /config/*.key
 
+# Local credentials and private runtime exports.
+**/.env
+**/.env.*
+!**/.env.example
+/config/credentials/*.key
+*.pem
+*.p12
+*.pfx
+*.sqlite3
+*.sqlite3-*
+*.sqlite
+*.sqlite-*
+*.log
+/.ruby-lsp/
+/.vscode/
+/.idea/
+/backups/
