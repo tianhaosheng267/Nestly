@@ -90,3 +90,5 @@ Gmail integration is implemented and covered by mocked tests; live account autho
 ## Project background and attribution
 
 Map data is attributed to [OpenStreetMap contributors](https://www.openstreetmap.org/copyright); ZIP coordinates come from [Zippopotam.us](https://www.zippopotam.us/). Included photographs are demo assets; their source and redistribution permissions have not been documented in this repository.
+
+## Still updating
