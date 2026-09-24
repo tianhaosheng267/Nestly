@@ -2,7 +2,7 @@
 
 **Discover apartments, build a shortlist, and organize rental inquiries in one place.**
 
-Nestly is a full-stack Ruby on Rails application combining location-based apartment discovery with swipe-style browsing, saved favorites, property management, and tour requests. It began as a CSE 3901 course project and has since been extended with open-map search and a Gmail integration.
+Nestly is a full-stack Ruby on Rails application combining location-based apartment discovery with swipe-style browsing, saved favorites, property management, and tour requests. 
 
 ## Product workflow
 
@@ -89,4 +89,4 @@ Gmail integration is implemented and covered by mocked tests; live account autho
 
 ## Project background and attribution
 
-Map data is attributed to [OpenStreetMap contributors](https://www.openstreetmap.org/copyright); ZIP coordinates come from [Zippopotam.us](https://www.zippopotam.us/). Included course-era photographs are demo assets; their source and redistribution permissions have not been documented in this repository.
+Map data is attributed to [OpenStreetMap contributors](https://www.openstreetmap.org/copyright); ZIP coordinates come from [Zippopotam.us](https://www.zippopotam.us/). Included photographs are demo assets; their source and redistribution permissions have not been documented in this repository.
